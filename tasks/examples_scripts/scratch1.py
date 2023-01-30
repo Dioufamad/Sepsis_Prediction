@@ -22,13 +22,13 @@ from scipy import stats
 # ---------------------------------------------------------------------------
 # IMPORTING OUR DATA
 # ----------- some quick lines for tsting
-# label_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Owkin_Test1_Diouf_Amad/data/input_data/training_setA_test"
-# label_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Owkin_Test1_Diouf_Amad/data/input_data/training_setA"
+# label_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Sepsis_Prediction/data/input_data/training_setA_test"
+# label_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Sepsis_Prediction/data/input_data/training_setA"
 
-# input_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Owkin_Test1_Diouf_Amad/data/input_data/training_setA_test"
-# input_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Owkin_Test1_Diouf_Amad/data/input_data/training_setA"
+# input_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Sepsis_Prediction/data/input_data/training_setA_test"
+# input_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Sepsis_Prediction/data/input_data/training_setA"
 
-# output_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Owkin_Test1_Diouf_Amad/data/output_data/output_test"
+# output_directory = "/home/amad/PALADIN_2/3CEREBRO/garage/projects/Sepsis_Prediction/data/output_data/output_test"
 
 #---------------
 for k in range(5): # check if range starts by 0
@@ -504,7 +504,7 @@ y_pred_80 = [0, 0, 0, 0, 0, 1, 1, 1, 0, 0]
 y_pred_70 = [1, 0, 0, 0, 0, 1, 1, 1, 0, 0]
 f1_score(y_true, y_pred_100, average='binary')
 Traceback (most recent call last):
-  File "/home/amad/anaconda3/envs/Owkin_Test1_Diouf_Amad/lib/python3.10/code.py", line 90, in runcode
+  File "/home/amad/anaconda3/envs/Sepsis_Prediction/lib/python3.10/code.py", line 90, in runcode
     exec(code, self.locals)
   File "<input>", line 1, in <module>
 NameError: name 'f1_score' is not defined

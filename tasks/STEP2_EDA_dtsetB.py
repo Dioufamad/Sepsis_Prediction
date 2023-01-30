@@ -53,13 +53,13 @@ print("# >>>>>> Part 1 : Input and output related information.")
 print("# ---> input related information")
 # + File location of the full table of our dataset
 # - to test with small file
-# input_file = Prefix_in_absolute_path + "/Owkin_Test1_Diouf_Amad/data/output_data/after_step1_data_gathering/dtsetB_forEDA_test_V1.csv"
+# input_file = Prefix_in_absolute_path + "/Sepsis_Prediction/data/output_data/after_step1_data_gathering/dtsetB_forEDA_test_V1.csv"
 # - to use the full file
-input_file = Prefix_in_absolute_path + "/Owkin_Test1_Diouf_Amad/data/output_data/after_step1_data_gathering/dtsetB_forEDA_full_V1.csv"
+input_file = Prefix_in_absolute_path + "/Sepsis_Prediction/data/output_data/after_step1_data_gathering/dtsetB_forEDA_full_V1.csv"
 
 print("# ---> output related information")
 # + the output folder location
-output_directory = Prefix_in_absolute_path + "/Owkin_Test1_Diouf_Amad/data/output_data/after_step2_EDA"
+output_directory = Prefix_in_absolute_path + "/Sepsis_Prediction/data/output_data/after_step2_EDA"
 # + checks
 # - if output folder is existing (if not we create it)
 if not os.path.isdir(output_directory):

@@ -24,7 +24,7 @@ from engines.data_mgmt_engine import Prefix_in_absolute_path # a defined prefix 
 # you give it a specific string as the tag of a cohort and it gives you back the link to the dataset you want
 def info_pointing_to_dataset_getter(tag_cohort):
 	# + the output folder where the datasets have been stored
-	source_folder_for_datasets = Prefix_in_absolute_path + "/Owkin_Test1_Diouf_Amad/data/output_data/after_step2_EDA"
+	source_folder_for_datasets = Prefix_in_absolute_path + "/Sepsis_Prediction/data/output_data/after_step2_EDA"
 
 	# + links for the datasets, each one pointed using a specific tag_cohort
 	if tag_cohort == "dtsetA_woTemp" : # for trsetA, version wo Temp var

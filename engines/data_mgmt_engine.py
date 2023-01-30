@@ -20,9 +20,9 @@ from sklearn.preprocessing import StandardScaler # for scaling
 # + Mindset :
 # Absolute paths throughout the project dont need to be changed from one user to another.
 # All absolute paths throughout the project are defined such as "Absolute_path = Prefix_in_absolute_path  + / + Rest_of_the_absolute_path_since_the_project_folder".
-# Rest_of_the_absolute_path_since_the_project_folder is "Owkin_Test1_Diouf_Amad/..."
-# Prefix_in_absolute_path is the path to the folder where the project folder "Owkin_Test1_Diouf_Amad" is located.
-# e.g. : if Absolute_path = "/home/user/HARD_DRIVE1/Work/projects/Owkin_Test1_Diouf_Amad/.....", Prefix_in_absolute_path = "/home/user/HARD_DRIVE1/Work/projects"
+# Rest_of_the_absolute_path_since_the_project_folder is "Sepsis_Prediction/..."
+# Prefix_in_absolute_path is the path to the folder where the project folder "Sepsis_Prediction" is located.
+# e.g. : if Absolute_path = "/home/user/HARD_DRIVE1/Work/projects/Sepsis_Prediction/.....", Prefix_in_absolute_path = "/home/user/HARD_DRIVE1/Work/projects"
 # So we define each user, has just to change here below the value of Prefix_in_absolute_path and have access to all files like it was intended to
 
 # + Defining Prefix_in_absolute_path

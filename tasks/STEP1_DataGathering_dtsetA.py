@@ -41,13 +41,13 @@ print("# >>>>>> Part 1 : Input and output related information.")
 print("# ---> input related information")
 # + File location of the patients data for one hospital
 # - to test with small number of files
-# input_directory = Prefix_in_absolute_path + "/Owkin_Test1_Diouf_Amad/data/input_data/used_data/training_setA_test"
+# input_directory = Prefix_in_absolute_path + "/Sepsis_Prediction/data/input_data/used_data/training_setA_test"
 # - to use all the files
-input_directory = Prefix_in_absolute_path + "/Owkin_Test1_Diouf_Amad/data/input_data/used_data/training_setA"
+input_directory = Prefix_in_absolute_path + "/Sepsis_Prediction/data/input_data/used_data/training_setA"
 
 print("# ---> output related information")
 # + the output folder location
-output_directory = Prefix_in_absolute_path + "/Owkin_Test1_Diouf_Amad/data/output_data/after_step1_data_gathering"
+output_directory = Prefix_in_absolute_path + "/Sepsis_Prediction/data/output_data/after_step1_data_gathering"
 # + checks
 # - if output folder is existing (if not we create it)
 if not os.path.isdir(output_directory):

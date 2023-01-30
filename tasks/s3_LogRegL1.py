@@ -131,7 +131,7 @@ dep_var_values_type = "dep_var_val_type_as_int"
 # dep_var_values_type = "dep_var_val_type_as_float"
 
 # + Path to the general output dir where all learning tasks results are put
-output_directory = Prefix_in_absolute_path + "/Owkin_Test1_Diouf_Amad/data/output_data/after_step3_modelsbuilding"
+output_directory = Prefix_in_absolute_path + "/Sepsis_Prediction/data/output_data/after_step3_modelsbuilding"
 
 # ---> Defining tags that are used in the workings of the best model selection...
 
