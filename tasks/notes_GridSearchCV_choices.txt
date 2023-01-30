@@ -1,0 +1,137 @@
+# this file is for notes on choices made about a specific method
+
+# the method explored : GridSearchCV
+# source : https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html
+
+
+# ---> The idea behind using the model selection and using GridSearchCV() :
+
+# + After the EDA (Exploratory Data Analysis) part of the project, we obtain a dataset tha can be used by a learning
+# method in order to make a predictive model. The part of the project where learning methods are used to make predictive
+# models and estimate their performance is the models building part.
+
+# + During the models building part of the project, we can focus on one learning method at a time and,
+# try to find what is the best model that can be built using the data at hand with this learning method.
+# This is the model selection.
+
+# + The model selection :
+# > The model selection starts with a learning method, that has different aspects that can be varied (called hyperparameters) using different values;
+# > for each hyperparameter, the list of values to be tested is chosen;
+# > supposing that multiple hyperparameters have each multiple values to test, we have now numerous combinations of the
+# hyperparameters values to test out, and each combination is a specific algorithm ie we have now a grid of algorithms to test out;
+# > then a search of the best combination of values (a specific algorithm) is made :
+# each combination of values is used to make a model and that model performance is tested
+# > and finally among all those combinations tested, the one leading to the best model in performance is outputed.
+# > The model selection (ie the search of the best combination of values for the hyperparameters)
+# is done in this project using scikit-learn's GridSearchCV().
+
+# + Some terminology points are :
+
+- A learning method :
+> it is the general process of a type of learning task
+> (e.g. : in classification, we can cite the Random Forest; in regression, we can cite the Logistic Regression etc.)
+> Its hyperparameters values chosen are still undefined or only the default values are considered before the use.
+
+- A hyperparameter and a learning algorithm :
+> a hyperparameter is a placeholder for a value that is used to modify a certain behaviour of a learning method.
+> The value to supply can be a real (to graduate the intensity of the behaviour) or can be the choice between activation/deactivation of a function.
+> The set of hyperparameters values specified to a method takes it from being "a method" to being "an algorithm"
+(i.e. the method was an idea without all steps precisely defined; and with each step clearly defined using the hyperparameters values given,
+it has now a specified behaviour that is a succession of precise steps to follow from precise input to precise output ie it is an algorithm).
+
+- A parameter and a model :
+> When an algorithm is ran to learn from the data, it extracts from the data a set of rules needed to make a model.
+This set of rules are the parameters.
+
+- The main difference between hyperparameters and parameters :
+> the identity (hyperparameter or parameter) will depend on where the value is captured.
+> If it is defined before the model training, it is a hyperparameter.
+> If it is defined during the training step of the models building, and found inside the model’s rules, it is a parameter.
+
+# + Random states and random seeds :
+
+# NB1 : when testing a learning method for "which values of its hyperparameters gives the best algorithm ?" (ie model selection),
+# differences in performance can arise when running the same learning method on same data multiples times,
+# whether or not with the same computing resources, whether or not by the same operator, whether or not in the same location (in time or space).
+# These differences come from the learning method potentially using, at some point (for most methods, it is at the start), initializations or instantiation,
+# that are, at the root of it, random. This can result in variations, even if relatively small but variations still, of the resulting performance.
+
+# NB2 : To guarantee repeatability and to report performances that are statistically standing on solid grounds,
+# an idea is to run the model selection of a learning method in multiple random states and average the results of those random states
+# to obtain what is the reported performance for the learning method at its best on the data (ie average performance of all its best models, one on each random state)
+
+# NB3 : To initialize a random state in which we estimate the model selection, a seed is used.
+# During reviewing or attempts to reproduce the model selection reported, as long as the same code is used,
+# using the same seeds as in the original model selection will summon the same random states hence guarantee the same results as those reported.
+
+# NB4 : 10 times is enough for publication purposes and common in published articles. So we use 10 seeds during model selection.
+# Below is some number of seeds that have been used historically :
+# - num_seeds=10 # advised for trial runs
+# - num_seeds=3 # advised for initial test runs
+# - num_seeds=40 # advised for "overkill or long observation" trial runs
+
+
+# + the benchmarking approach :
+
+# - Usually a project using a learning method can require to compare multiple learning methods to know which one leads to generally better predictive results
+(whether performance or qualities of the feature selection used by the model)
+# - the model selection done a learning method will lead to one best model (ie specific by the set of hyperparameters values that it uses)
+# - the benchmarking approach is the idea to compare M learning methods by comparing the performance (or another quality) of
+the M best models obtained after having done the model selection on each of the learning methods.
+# - This can result in rankings of all learning methods envisioned for the project and either select the top learning method or make commentaries on the ranking
+# NB : some limitations can be posed by the project at hand and force to choose in the benchmarking ranking not the top method :
+# > e.g.1 : using a method that is interpretable can be important hence interpretable learning methods will be favored;
+# this can be the case in fields like biology or health sciences where it is desired to not only predict well a phenomenon (ie translational aspects),
+# but also provided the grounds to better understand it (fundamental aspects)
+# > e.g.2 : also for research focusing on a specific type of learning algorithm, it can be required to select not just the
+# immediate top learning method in a benchmarking ranking but the one highest ranked one(s) that are of the type of learning method to research.
+
+
+
+
+
+
+# ---> Parameters values choices common to all models researched:
+
+# NB : if a parameter value is not explicitly set in the line of code, it means that we have chosen the default value
+# of the method and that the explanation given in the source documentation is enough to motivate our choice.
+# Not elaborating on default values kept as they are helps us to keep this piece of documentation as short as possible for the reader.
+
+# + verbose :
+verbose controls the verbosity: the higher, the more messages.
+# by default verbose=0 ie no additional info displayed on standard output during the process
+verbose=1 : the computation time for each fold and parameter candidate is displayed;
+verbose=2 : the score is also displayed;
+verbose=3 : the fold and candidate parameter indexes are also displayed together with the starting time of the computation.
+# > our choice : verbose=3 (to test out and set stopping criterias such as tol and max_iter for Logistic Regression) and
+# verbose=0 during runs (to not unncessarily clutter the output that will be kept in a log file and included in the results files)
+
+# + refit :
+# Refit an estimator using the best found parameters on the whole dataset. This is important bcause of the following :
+# a) the refitted estimator is made available at the best_estimator_ attribute and permits using predict directly on this GridSearchCV instance.
+# b) also for multiple metric evaluation, the attributes best_index_, best_score_ and best_params_ will only be available
+# if refit is set and all of them will be determined w.r.t this specific scorer
+# > our choice : refit is not stated in our line of code for gridsearch as default is refit=True
+
+# + cv :
+# Determines the cross-validation splitting strategy.
+# > our choice : cv=10 for 10 folds in a (Stratified)KFold
+
+# + scoring :
+# Strategy to evaluate the performance of the cross-validated model on the test set.
+# If scoring represents a single score (the case we are in), one can use:
+# > a single string (see The scoring parameter: defining model evaluation rules);
+# > a callable (see Defining your scoring strategy from metric functions) that returns a single value.
+# > our choice : we define grid_scorer by using the make_scorer() function and f1_score(actual, prediction, average='weighted'). This results in
+# a grid_scorer that is the weighted version of the f1_score. This is due to its better management of unbalance of datasets and
+# the output is a score that more in line with whats happening in the model, rather than being affected by the imbalance or changing the metric value to account
+# for it based on assumptions of symmetry in the dep var classes (or lack thereof).
+
+# +
+
+# ---> Parameters values choices specific to a model researched:
+
+# +
+
+# end of file
+# ----------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,99 @@
+# this file is for notes on choices made about a specific learning algorithm
+
+# Learning algorithm explored : Logistic Regression
+# source : https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+
+# ---> Hyperparameters values choices :
+
+# NB : if a hyperparameter value is not explicitly set in the line of code, it means that we have chosen the default value
+# of the method and that the explanation given in the source documentation is enough to motivate our choice.
+# Not elaborating on default values kept as they are helps us to keep this piece of documentation as short as possible for the reader.
+
+solver='saga', random_state=a_seed, class_weight="balanced"
+
+# + penalty :
+# Specify the norm of the penalty:
+# possible values : {‘l1’, ‘l2’, ‘elasticnet’, ‘none’}, default=’l2’
+# 'none': no penalty is added;
+# 'l2': add a L2 penalty term and it is the default choice;
+# 'l1': add a L1 penalty term;
+# 'elasticnet': both L1 and L2 penalty terms are added.
+
+# NB : Some penalties may not work with some solvers. See the parameter solver, to know the compatibility between the penalty and solver.
+# New in version 0.19: l1 penalty with SAGA solver (allowing ‘multinomial’ + L1)
+# In regards to this aspect of compatibility, we choose the L1 penalty + the saga solver and it is a working combinason
+
+# > our choice : penalty='l1' (because even though we are not working with a extended number of features, we want to take advantage
+# of the possibility to eliminate (from the feature selection used by the best model) the features that are not influencing the prediction.
+# The L1 penalty apply a lasso that is pushing towards zero the weights of the less influencial features and their coefs reaches zero
+# if they dont play no role in the prediction.
+
+# + solver :
+Algorithm to use in the optimization problem.
+# possible values : {‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’}, default=’lbfgs’
+New in version 0.17: Stochastic Average Gradient descent solver.
+New in version 0.19: SAGA solver.
+Changed in version 0.22: The default solver changed from ‘liblinear’ to ‘lbfgs’ in 0.22.
+
+NB1-a : To choose a solver, you might want to consider the following aspects:
+For small datasets, ‘liblinear’ is a good choice, whereas ‘sag’ and ‘saga’ are faster for large ones;
+For multiclass problems, only ‘newton-cg’, ‘sag’, ‘saga’ and ‘lbfgs’ handle multinomial loss;
+‘liblinear’ is limited to one-versus-rest schemes.
+- In regards to this, we have a dataset with large number of samples and we would like to be able to compare the model
+produced with future models that are for the multiclass version of the same problem, so here the solver 'saga' is a good choice.
+
+NB1-b : The choice of the solver algorithm depends also on the penalty chosen: Supported penalties by solver:
+‘newton-cg’ - [‘l2’, ‘none’]
+‘lbfgs’ - [‘l2’, ‘none’]
+‘liblinear’ - [‘l1’, ‘l2’]
+‘sag’ - [‘l2’, ‘none’]
+‘saga’ - [‘elasticnet’, ‘l1’, ‘l2’, ‘none’]
+- In regards to this, we would like in the future to be able to compare the model produced with the model with the L1 penalty
+with models produced with other choices of penalty (without a penalty, l2, or elasticnet) so we 'saga' is the better choice here.
+
+NB2 : ‘sag’ and ‘saga’ fast convergence is only guaranteed on features with approximately the same scale.
+You can preprocess the data with a scaler from sklearn.preprocessing.
+- In regards to this, our datasets used for best model selection come out of the EDA process in a scaled version
+by using the scikit-learn StandardScaler() that will put the features in the same scale
+
+# > our choice : we choose the 'saga' solver because it is the only one compatible with the l1 penalty that wewant to test first,
+as well as allowing the other penalties options. In addition, it is well in line with our dataset size in samples.
+
+# + class_weight :
+Weights associated with classes in the form {class_label: weight}. If not given, all classes are supposed to have weight one.
+possible values : dict or ‘balanced’, default=None
+New in version 0.17: class_weight=’balanced’
+The “balanced” mode uses the values of y to automatically adjust weights inversely proportional to class frequencies in
+the input data as n_samples / (n_classes * np.bincount(y)). Note that these weights will be multiplied with
+sample_weight (passed through the fit method) if sample_weight is specified.
+# > our choice : we choose class_weight="balanced" because of this will manage better the strong imbalance present in our datasets
+
+
+# + max_iter :
+# max_iter=100 by default.
+# for initial tests, 1st suggestion is doubling it (200).
+# if not converging with 200, set at 10000.
+# if converging with 10000, see if 1000 is enough.
+# if not converging with 10000, check if values of dataset are well-conditioned (see source below)
+# source : https://stackoverflow.com/questions/52670012/convergencewarning-liblinear-failed-to-converge-increase-the-number-of-iterati
+# > our choice: max_iter=10000 (this value worked and was kept to be able to explore more stringent values of tol)
+
+# + fit_intercept :
+# to facilitate convergence, we have these 2 options :
+# > using fit_intercept=False when a "synthetic feature for intercept" (a feature of value 1 for all the samples of the dataset) has been included in the features
+# > using fit_intercept=True when a "synthetic feature for intercept" (a feature of value 1 for all the samples of the dataset) has NOT been included in the features
+# > our choice : we choose fit_intercept=True (default value) and not include among the features a "synthetic feature for intercept". This is because we know
+ that the management of learning algorithms is mature within the scikit-learn library, hence we choose to let the management of the intercept be handled for us.
+# This results in only our features being estimated and no need to handle an additionnal feature (the "synthetic feature for intercept")
+
+# + tol :
+# default value is tol=0.0001.
+# we tested the default value and we had no convergence, despite setting max_iter=10000.
+# we decided to test decreasing values of tol: 1000.0, 500.0, 100.0, 10.0, 1.0 all worked.
+# 0.1 was the first value tested, in this decreasing order, where no convergence was obtained.
+# (hence we didnt not test the remaining remarkable values until the default value that is 0.0001 ie 0.1, 0.01, 0.001)
+# > our choice : we decided to use tol = 1.0 as it is the smallest value that enabled convergence during initial tests,
+# despite using a high max number of iterations stopping criteria (10 000)
+
+# end of file
+# ----------------------------------------------------------------------------------------------------------------------
